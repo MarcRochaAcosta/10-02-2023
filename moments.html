@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moments Especials - T'estimo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estils específics per a la línia de temps */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #e74c3c;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            top: 20px;
+            background-color: white;
+            transform: rotate(45deg);
+            box-shadow: 5px -5px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: -10px;
+            top: 20px;
+            background-color: white;
+            transform: rotate(45deg);
+            box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .timeline-date {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #e74c3c;
+            border-radius: 50%;
+            top: 20px;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -10px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -10px;
+        }
+        
+        .timeline-title {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .timeline-description {
+            color: #7f8c8d;
+        }
+        
+        .timeline-icon {
+            margin-right: 10px;
+            color: #e74c3c;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::after {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 20px;
+            }
+            
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content::after,
+            .timeline-item:nth-child(even) .timeline-content::after {
+                left: -10px;
+                top: 20px;
+                box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.05);
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-dot,
+            .timeline-item:nth-child(even) .timeline-dot {
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Moments Especials <i class="fas fa-heart"></i></h1>
+            <p class="subtitle">Un recorregut pels nostres millors moments</p>
+        </header>
+
+        <div class="page-content">
+            <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Tornar a l'inici</a>
+            
+            <div class="timeline">
+                <!-- Substitueix aquestes dates i esdeveniments pels vostres propis -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date"><i class="fas fa-calendar-alt timeline-icon"></i>El dia que ens vam conèixer</div>
+                        <h3 class="timeline-title">El començament de tot</h3>
+                        <p class="timeline-description">Aquí pots escriure com us vau conèixer i quines van ser les primeres impressions.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date"><i class="fas fa-calendar-alt timeline-icon"></i>La nostra primera cita</div>
+                        <h3 class="timeline-title">Un moment màgic</h3>
+                        <p class="timeline-description">Descriu com va ser la vostra primera cita, on vau anar i què vau fer.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date"><i class="fas fa-calendar-alt timeline-icon"></i>El nostre primer viatge</div>
+                        <h3 class="timeline-title">Aventures junts</h3>
+                        <p class="timeline-description">Explica el vostre primer viatge junts, les experiències i els moments especials.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date"><i class="fas fa-calendar-alt timeline-icon"></i>El nostre primer aniversari</div>
+                        <h3 class="timeline-title">Un any d'amor</h3>
+                        <p class="timeline-description">Com vau celebrar el vostre primer aniversari i què va fer que fos especial.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date"><i class="fas fa-calendar-alt timeline-icon"></i>Dos anys junts</div>
+                        <h3 class="timeline-title">Creixent en l'amor</h3>
+                        <p class="timeline-description">Reflexions sobre com ha evolucionat la vostra relació després de dos anys.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date"><i class="fas fa-calendar-alt timeline-icon"></i>Avui: Dos anys i mig</div>
+                        <h3 class="timeline-title">El nostre present i futur</h3>
+                        <p class="timeline-description">Celebrant dos anys i mig junts, amb molts més moments per viure i compartir.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Fet amb <i class="fas fa-heart"></i> per a tu</p>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

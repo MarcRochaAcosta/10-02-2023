@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes d'Amor - T'estimo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Notes d'Amor <i class="fas fa-heart"></i></h1>
+            <p class="subtitle">Un espai per compartir els nostres sentiments</p>
+        </header>
+
+        <div class="page-content">
+            <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Tornar a l'inici</a>
+            
+            <div class="notes-container">
+                <form class="note-form">
+                    <h2>Escriu una nota d'amor</h2>
+                    <textarea id="note-text" placeholder="Escriu aquí el teu missatge d'amor..."></textarea>
+                    <button type="submit">Guardar Nota <i class="fas fa-heart"></i></button>
+                </form>
+                
+                <h2>Les nostres notes d'amor</h2>
+                <div class="notes-list">
+                    <!-- Les notes es generaran dinàmicament amb JavaScript -->
+                    <div class="note-card">
+                        <p>Aquesta és una nota d'exemple. Escriu les teves pròpies notes d'amor i es guardaran aquí.</p>
+                        <div class="date">00/00/0000</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Fet amb <i class="fas fa-heart"></i> per a tu</p>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

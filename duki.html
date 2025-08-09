@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joc de Duki - T'estimo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estils específics per al joc de Duki */
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        #duki-game-canvas {
+            border: 3px solid #3498db;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .game-instructions {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+        
+        .game-instructions h3 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        
+        .game-instructions ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .game-instructions li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .game-instructions li:before {
+            content: '🐱';
+            position: absolute;
+            left: 0;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+        
+        .control-key {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Joc de Duki <i class="fas fa-cat"></i></h1>
+            <p class="subtitle">Ajuda a en Duki a construir la seva casa!</p>
+        </header>
+
+        <div class="page-content">
+            <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Tornar a l'inici</a>
+            
+            <div class="game-instructions">
+                <h3>Instruccions del joc:</h3>
+                <ul>
+                    <li>Controla a en Duki, el nostre gat, per recollir materials i construir una casa.</li>
+                    <li>Mou-te amb les tecles de fletxa o WASD per recollir els objectes.</li>
+                    <li>Necessites recollir: fusta, pedra, finestra, porta i teulada.</li>
+                    <li>Apropa't a la zona de construcció (cantonada inferior dreta) per construir la casa.</li>
+                    <li>Completa la casa per guanyar!</li>
+                </ul>
+            </div>
+            
+            <div class="controls">
+                <div class="control-key">↑ o W<br>Amunt</div>
+                <div class="control-key">↓ o S<br>Avall</div>
+                <div class="control-key">← o A<br>Esquerra</div>
+                <div class="control-key">→ o D<br>Dreta</div>
+            </div>
+            
+            <div class="game-container">
+                <canvas id="duki-game-canvas" width="600" height="400"></canvas>
+            </div>
+        </div>
+
+        <footer>
+            <p>Fet amb <i class="fas fa-heart"></i> per a tu</p>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/duki-game.js"></script>
+    <script>
+        // Iniciar el joc quan es carregui la pàgina
+        document.addEventListener('DOMContentLoaded', function() {
+            initDukiGame();
+        });
+    </script>
+</body>
+</html>
