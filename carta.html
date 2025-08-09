@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Meva Carta d'Amor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .letter-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            position: relative;
+            background: #f9f3e6;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .letter-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 49%, #e6d5c1 49%, #e6d5c1 51%, transparent 51%);
+            background-size: 20px 20px;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .letter-content {
+            position: relative;
+            padding: 25px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            color: #4a4a4a;
+            text-align: justify;
+        }
+
+        .letter-content::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid #c4a484;
+            border-radius: 5px;
+            pointer-events: none;
+        }
+
+        .corner-decoration {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            pointer-events: none;
+        }
+
+        .corner-decoration.top-left {
+            top: 10px;
+            left: 10px;
+            border-top: 3px solid #c4a484;
+            border-left: 3px solid #c4a484;
+        }
+
+        .corner-decoration.top-right {
+            top: 10px;
+            right: 10px;
+            border-top: 3px solid #c4a484;
+            border-right: 3px solid #c4a484;
+        }
+
+        .corner-decoration.bottom-left {
+            bottom: 10px;
+            left: 10px;
+            border-bottom: 3px solid #c4a484;
+            border-left: 3px solid #c4a484;
+        }
+
+        .corner-decoration.bottom-right {
+            bottom: 10px;
+            right: 10px;
+            border-bottom: 3px solid #c4a484;
+            border-right: 3px solid #c4a484;
+        }
+
+        .wax-seal {
+            position: absolute;
+            bottom: 30px;
+            right: 50px;
+            width: 60px;
+            height: 60px;
+            background: #8b0000;
+            border-radius: 50%;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 24px;
+            transform: rotate(-15deg);
+        }
+
+        .ribbon {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 80px;
+            background: #e91e63;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+        }
+
+        .date {
+            text-align: right;
+            margin-bottom: 30px;
+            font-style: italic;
+            color: #666;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 40px;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .letter-content p {
+            margin-bottom: 20px;
+            text-indent: 30px;
+        }
+
+        .hearts-decoration {
+            position: absolute;
+            font-size: 20px;
+            color: #e91e63;
+            opacity: 0.3;
+        }
+
+        .hearts-decoration:nth-child(1) { top: 20px; left: 20px; transform: rotate(-15deg); }
+        .hearts-decoration:nth-child(2) { top: 40px; right: 30px; transform: rotate(15deg); }
+        .hearts-decoration:nth-child(3) { bottom: 30px; left: 40px; transform: rotate(10deg); }
+
+        @media (max-width: 768px) {
+            .letter-container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .corner-decoration {
+                width: 40px;
+                height: 40px;
+            }
+
+            .wax-seal {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>La Meva Carta d'Amor <i class="fas fa-heart"></i></h1>
+            <p class="subtitle">Paraules del cor</p>
+        </header>
+
+        <div class="page-content">
+            <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Tornar a l'inici</a>
+
+            <div class="letter-container">
+                <div class="ribbon"></div>
+                <div class="corner-decoration top-left"></div>
+                <div class="corner-decoration top-right"></div>
+                <div class="corner-decoration bottom-left"></div>
+                <div class="corner-decoration bottom-right"></div>
+                
+                <div class="hearts-decoration"><i class="fas fa-heart"></i></div>
+                <div class="hearts-decoration"><i class="fas fa-heart"></i></div>
+                <div class="hearts-decoration"><i class="fas fa-heart"></i></div>
+
+                <div class="letter-content">
+                    <div class="date">10 d'Agost, 2025</div>
+
+                    <p>No saps la de coses que voldria dir-te, amor. Ets el millor que tinc i tindré mai. Voldria que aquesta carta, tot i que ja és diferent de les altres, fos dedicada a les coses que potser ens han passat més recentment.</p>
+
+                    <p>Primer de tot, amor, gràcies. Ara més que mai em sento la persona més feliç i afortunada que existeix. Em sento únic i especial només per tenir-te a tu i tot el que això comporta. Ja saps que últimament no m'estic sentint gaire bé amb mi mateix; tinc moltes coses al cap i, a vegades, no sóc capaç de donar-te el que necessites. Però tu sempre ho aconsegueixes: no hi ha dia que estigui amb tu i no acabi oblidant-me de tot, i em senti molt millor que abans de veure't. Ets tan única, tan especial. Cada moment amb tu és millor que l'anterior, i això només significa una cosa: que encara pot estar millor, per impossible que sembli.</p>
+
+                    <p>Cada dia estic més enamorat de tu, i sacrificaria el que fos per tu: pel teu amor, la teva felicitat, el teu somriure, el teu respecte. Tu, i només tu. Vull seguir celebrant anys amb tu, sis mesos, mesos, dies. Cada minut al teu costat el celebro com el millor moment de la meva vida, perquè hi ets tu, i vull que sigui sempre així.</p>
+
+                    <p>Per això crec que et mereixes unes disculpes, de tot cor. Vull que sàpigues que mai t'he volgut fer mal. Sé que hi ha hagut moments que he sigut insuportable i que no es podia tractar amb mi, però mai m'has deixat tirat, i això ho valoro infinitament. Sento que has hagut de fer-me de mare molts cops, per culpa de la meva immaduresa o dels meus mals moments. Sento no haver-te donat sempre el que et mereixes. Ho intento cada dia, però no sempre ho aconsegueixo; et mereixes sempre el millor, perquè ets la millor. Ho sento si t'has sentit incompresa: sempre t'entenc, el que passa és que no sempre ho sé demostrar, i això em posa molt trist.</p>
+
+                    <p>He estat aprenent molt aquests sis mesos. He vist el que realment el que estàs disposada a fer per mi sense dubtar-ho. Sé que també ets conscient que tot el que t'he dit abans ho sento molt i saps que puc fer-ho molt millor. Per això mateix et vull donar les gràcies.</p>
+
+                    <p>Gràcies per cada cèntim que t'has gastat en mi, gràcies per no rendir-te mai amb mi i per confiar sempre que puc millorar i ser millor per tu. Gràcies per callar els meus pensaments que, a vegades, no em deixen veure ni pensar les coses amb claredat, encara que tu tampoc estiguis en el teu millor moment. Gràcies per escollir-me cada dia, per fer-los millors. Però sobretot, gràcies per aparèixer quan més et necessitava, per ser just el que necessito i per ser la dona dels meus ulls, dels meus somnis i de la meva vida.</p>
+
+                    <p>T’escriuria mil paraules més, però és impossible poder expressar tot el que sento; tampoc em vull fer repetitiu. Vull la nostra vida, et vull a tu, sigui com sigui, fem com ho fem, vull fer-ho amb tu. Mai ho canviaré, siguin quines siguin les decisions que prenem, ets la meva prioritat. Sempre ho has sigut i sempre ho seràs. T'estimo d'aquí a Polaris. </p>
+                    <div class="signature">Sempre teu, <br>Marc</div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer>
+            <p>Fet amb <i class="fas fa-heart"></i> per a tu</p>
+        </footer>
+    </div>
+</body>
+</html>

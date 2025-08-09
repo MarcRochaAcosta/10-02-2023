@@ -146,46 +146,156 @@ function startMemoryGame() {
     });
 }
 
+document.addEventListener('DOMContentLoaded', async function () {
+    const API_URL = 'https://api.jsonbin.io/v3/b/68974b2cae596e708fc5efdd';
+    const API_KEY = '$2a$10$MF8uIEUb4wMPTRhgQmdfZO/Lu6C3CTFvjril16xqSJ91a221AY4ma';
+
+    const commentForm = document.getElementById('comment-form');
+    const commentsContainer = document.getElementById('comments-container');
+
+    async function loadComments() {
+        try {
+            const response = await fetch(API_URL, {
+                method: 'GET',
+                headers: { 'X-Master-Key': API_KEY }
+            });
+            if (!response.ok) throw new Error('No comments found');
+            const data = await response.json();
+            displayComments(data.record);
+        } catch (error) {
+            console.log('No comments yet');
+            commentsContainer.innerHTML = '<p class="no-comments">Be the first to leave a comment!</p>';
+        }
+    }
+
+    function displayComments(comments) {
+        commentsContainer.innerHTML = '';
+        comments.forEach(comment => {
+            const commentElement = document.createElement('div');
+            commentElement.className = 'comment';
+            commentElement.innerHTML = `<h4>${comment.name}</h4><p>${comment.comment}</p>`;
+            commentsContainer.appendChild(commentElement);
+        });
+    }
+
+    async function saveComment(commentData) {
+        try {
+            const response = await fetch(API_URL, {
+                method: 'GET',
+                headers: { 'X-Master-Key': API_KEY }
+            });
+            const data = await response.json();
+            let comments = data.record || [];
+
+            comments.push(commentData);
+
+            await fetch(API_URL, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Master-Key': API_KEY
+                },
+                body: JSON.stringify(comments)
+            });
+
+            displayComments(comments);
+        } catch (error) {
+            console.error('Error:', error.message);
+            alert(error.message);
+        }
+    }
+
+    commentForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const nameInput = document.getElementById('name');
+        const commentInput = document.getElementById('comment');
+
+        const commentData = {
+            name: nameInput.value,
+            comment: commentInput.value
+        };
+
+        await saveComment(commentData);
+
+        nameInput.value = '';
+        commentInput.value = '';
+    });
+
+    loadComments();
+});
+
 // Funcionalitat per a les notes d'amor
 function initNotes() {
     const noteForm = document.querySelector('.note-form');
     const notesList = document.querySelector('.notes-list');
-    
+
+    // Carregar notes del servidor
+    fetch('php/load_notes.php')
+        .then(res => res.json())
+        .then(notes => {
+            notesList.innerHTML = '';
+            notes.forEach(note => addNoteToDOM(note.text, note.date));
+        })
+        .catch(err => console.error('Error carregant notes:', err));
+
     if (noteForm) {
         noteForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const noteText = document.getElementById('note-text').value.trim();
             if (noteText === '') return;
-            
-            // Crear nova nota
-            const noteCard = document.createElement('div');
-            noteCard.classList.add('note-card');
-            
-            const noteContent = document.createElement('p');
-            noteContent.textContent = noteText;
-            
-            const noteDate = document.createElement('div');
-            noteDate.classList.add('date');
-            noteDate.textContent = new Date().toLocaleDateString('ca-ES');
-            
-            noteCard.appendChild(noteContent);
-            noteCard.appendChild(noteDate);
-            
-            // Afegir la nota a la llista
-            notesList.prepend(noteCard);
-            
-            // Guardar les notes al localStorage
-            saveNotes();
-            
-            // Netejar el formulari
+
+            const noteDate = new Date().toLocaleDateString('ca-ES');
+            addNoteToDOM(noteText, noteDate);
+
+            // Enviar al servidor
+            const formData = new FormData();
+            formData.append('note', noteText);
+
+            fetch('php/save_notes.php', {
+                method: 'POST',
+                body: formData
+            }).catch(err => console.error('Error guardant nota:', err));
+
             document.getElementById('note-text').value = '';
         });
     }
-    
-    // Carregar notes guardades
-    loadNotes();
 }
+
+function addNoteToDOM(text, date) {
+    const notesList = document.querySelector('.notes-list');
+    const noteCard = document.createElement('div');
+    noteCard.classList.add('note-card');
+
+    const noteContent = document.createElement('p');
+    noteContent.textContent = text;
+
+    const noteDate = document.createElement('div');
+    noteDate.classList.add('date');
+    noteDate.textContent = date;
+
+    noteCard.appendChild(noteContent);
+    noteCard.appendChild(noteDate);
+    notesList.prepend(noteCard);
+}
+
+function addNoteToDOM(text, date) {
+    const notesList = document.querySelector('.notes-list');
+    const noteCard = document.createElement('div');
+    noteCard.classList.add('note-card');
+
+    const noteContent = document.createElement('p');
+    noteContent.textContent = text;
+
+    const noteDate = document.createElement('div');
+    noteDate.classList.add('date');
+    noteDate.textContent = date;
+
+    noteCard.appendChild(noteContent);
+    noteCard.appendChild(noteDate);
+    notesList.prepend(noteCard);
+}
+
 
 function saveNotes() {
     const notesList = document.querySelector('.notes-list');

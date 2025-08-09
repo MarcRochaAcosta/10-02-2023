@@ -44,6 +44,25 @@ header .subtitle {
     font-size: 1.2rem;
 }
 
+/* Secció del missatge d'amor */
+.love-message {
+    background-color: #fff5f5;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 40px;
+    text-align: justify;
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.1);
+    border: 2px solid rgba(231, 76, 60, 0.2);
+}
+
+.love-message p {
+    color: #e74c3c;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    font-style: italic;
+    white-space: pre-line;
+}
+
 /* Menú principal */
 .menu {
     display: grid;
@@ -153,52 +172,96 @@ footer .fa-heart {
 }
 
 .note-form {
-    margin-bottom: 30px;
-    background-color: #f9f9f9;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.note-form input[type="text"] {
+    width: auto;
+    height: auto;
+    min-width: 250px;
+    min-height: 40px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #dcdcdc;
     border-radius: 10px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9;
 }
 
 .note-form textarea {
-    width: 100%;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    resize: vertical;
-    min-height: 100px;
-    margin-bottom: 15px;
+    width: auto;
+    height: auto;
+    min-width: 250px;
+    min-height: 80px;
+    resize: both;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9;
 }
 
 .note-form button {
-    padding: 10px 20px;
-    background-color: #e74c3c;
+    padding: 12px 25px;
+    background-color: #3498db;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .note-form button:hover {
-    background-color: #c0392b;
+    background-color: #2980b9;
+    transform: scale(1.05);
 }
 
 .notes-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
+    justify-items: center;
 }
 
 .note-card {
     background-color: #fff9c4;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: justify;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
     position: relative;
 }
 
+.note-card:before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    width: 30px;
+    height: 10px;
+    background-color: #f4d03f;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.note-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
 .note-card .date {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #7f8c8d;
     margin-top: 10px;
     text-align: right;

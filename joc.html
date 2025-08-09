@@ -3,72 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joc Interactiu - T'estimo</title>
+    <title>Joc de Preguntes - T'estimo</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Estils específics per al joc de memòria */
-        .game-board {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-top: 30px;
-        }
-        
-        .memory-card {
-            height: 120px;
-            perspective: 1000px;
-            cursor: pointer;
-        }
-        
-        .card-inner {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.5s;
-        }
-        
-        .memory-card.flipped .card-inner {
-            transform: rotateY(180deg);
-        }
-        
-        .card-front, .card-back {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            backface-visibility: hidden;
-            border-radius: 10px;
+        /* Estils específics per al joc de preguntes */
+        .game-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-        }
-        
-        .card-front {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .card-front::after {
-            content: '?';
-            font-size: 2rem;
-            color: white;
-            font-weight: bold;
-        }
-        
-        .card-back {
-            background-color: white;
-            transform: rotateY(180deg);
-            font-size: 2.5rem;
-        }
-        
-        .memory-card.matched .card-inner {
-            transform: rotateY(180deg);
-            box-shadow: 0 0 15px rgba(46, 204, 113, 0.8);
-        }
-        
-        .memory-card.matched .card-back {
-            background-color: rgba(46, 204, 113, 0.1);
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
         }
         
         .game-info {
@@ -77,36 +23,282 @@
             padding: 20px;
             background-color: #f9f9f9;
             border-radius: 10px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .game-info p {
             margin-bottom: 15px;
         }
         
-        #start-game {
-            padding: 10px 20px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
+        .question-container {
+            background: linear-gradient(135deg, #f8e5ee 0%, #ffd1dc 100%);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 25px rgba(233, 30, 99, 0.2);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
         }
         
-        #start-game:hover {
-            background-color: #2980b9;
+        .question-container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #e91e63, #ff9a8b, #e91e63);
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0.7;
+            border-radius: 20px;
+        }
+        
+        .question-number {
+            font-size: 1.2rem;
+            color: #e91e63;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .question-text {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+        
+        .option-button {
+            padding: 15px 20px;
+            background-color: white;
+            border: 2px solid #e91e63;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            text-align: left;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            color: #333;
+        }
+        
+        .option-button:hover {
+            background-color: #fce4ec;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+        }
+        
+        .option-button.correct {
+            background-color: #c8e6c9;
+            border-color: #4caf50;
+            color: #2e7d32;
+            pointer-events: none;
+        }
+        
+        .option-button.incorrect {
+            background-color: #ffcdd2;
+            border-color: #f44336;
+            color: #c62828;
+            pointer-events: none;
+        }
+        
+        .option-button.disabled {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .feedback.incorrect {
+            background-color: #ffcdd2;
+            color: #c62828;
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .next-button {
+            padding: 12px 25px;
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            display: none;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+        }
+        
+        .next-button:hover {
+            background-color: #c2185b;
+            transform: scale(1.05);
+        }
+        
+        .next-button.visible {
+            display: inline-block;
+            animation: bounceIn 0.5s ease;
+        }
+        
+        .progress-container {
+            width: 90%;
+            max-width: 600px;
+            height: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #ff9a8b, #e91e63);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 5px;
+        }
+        
+        .score-display {
+            font-size: 1.2rem;
+            color: #e91e63;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .result-container {
+            text-align: center;
+            background: linear-gradient(135deg, #f8e5ee 0%, #ffd1dc 100%);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 25px rgba(233, 30, 99, 0.2);
+            margin-bottom: 30px;
+            display: none;
+        }
+        
+        .result-container h2 {
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+        
+        .result-container p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .restart-button {
+            padding: 12px 25px;
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+        }
+        
+        .restart-button:hover {
+            background-color: #c2185b;
+            transform: scale(1.05);
+        }
+        
+        .heart-animation {
+            position: absolute;
+            font-size: 24px;
+            color: #e91e63;
+            pointer-events: none;
+            z-index: 100;
+            animation: floatHeart 2s ease-in-out forwards;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #e91e63;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        /* Animacions */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes floatHeart {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(0); opacity: 0; }
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOutLeft {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(-100%); opacity: 0; }
+        }
+        
+        .slide-in {
+            animation: slideInRight 0.5s ease forwards;
+        }
+        
+        .slide-out {
+            animation: slideOutLeft 0.5s ease forwards;
         }
         
         @media (max-width: 768px) {
-            .game-board {
-                grid-template-columns: repeat(3, 1fr);
+            .question-container {
+                padding: 20px;
+                width: 95%;
             }
-        }
-        
-        @media (max-width: 480px) {
-            .game-board {
-                grid-template-columns: repeat(2, 1fr);
+            
+            .question-text {
+                font-size: 1.2rem;
+            }
+            
+            .option-button {
+                padding: 12px 15px;
+                font-size: 1rem;
             }
         }
     </style>
@@ -114,7 +306,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>Joc Interactiu <i class="fas fa-heart"></i></h1>
+            <h1>Joc de Preguntes <i class="fas fa-question-circle"></i></h1>
             <p class="subtitle">Un joc especial per a tu</p>
         </header>
 
@@ -123,14 +315,32 @@
             
             <div class="game-container">
                 <div class="game-info">
-                    <h2>Joc de Memòria</h2>
-                    <p>Troba totes les parelles d'emojis relacionats amb el nostre amor.</p>
-                    <p>Cada vegada que trobis una parella, pensa en un moment especial que hem compartit junts.</p>
+                    <h2>Preguntes del Nostre Amor</h2>
+                    <p>Un joc de 20 preguntes sobre nosaltres, els nostres moments especials i el nostre amor.</p>
+                    <p>Cada resposta correcta et donarà punts. Veurem quant saps sobre la nostra història!</p>
                     <button id="start-game">Començar el Joc</button>
                 </div>
                 
-                <div class="game-board">
-                    <!-- El joc es generarà dinàmicament amb JavaScript -->
+                <div class="progress-container">
+                    <div class="progress-bar"></div>
+                </div>
+                
+                <div class="score-display">Puntuació: <span id="score">0</span></div>
+                
+                <div class="question-container" style="display: none;">
+                    <div class="question-number">Pregunta <span id="current-question">1</span> de <span id="total-questions">20</span></div>
+                    <div class="question-text" id="question-text"></div>
+                    <div class="options-container" id="options-container"></div>
+                    <div class="feedback" id="feedback"></div>
+                    <button class="next-button" id="next-button">Següent Pregunta</button>
+                </div>
+                
+                <div class="result-container" id="result-container">
+                    <h2>Resultats Finals</h2>
+                    <p>Has completat totes les preguntes!</p>
+                    <p>La teva puntuació final és: <span id="final-score">0</span> de <span id="max-score">0</span></p>
+                    <p id="result-message"></p>
+                    <button class="restart-button" id="restart-button">Tornar a Jugar</button>
                 </div>
             </div>
         </div>
@@ -140,6 +350,481 @@
         </footer>
     </div>
 
-    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements del DOM
+            const startButton = document.getElementById('start-game');
+            const questionContainer = document.querySelector('.question-container');
+            const gameInfo = document.querySelector('.game-info');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const feedback = document.getElementById('feedback');
+            const nextButton = document.getElementById('next-button');
+            const currentQuestionSpan = document.getElementById('current-question');
+            const totalQuestionsSpan = document.getElementById('total-questions');
+            const scoreDisplay = document.getElementById('score');
+            const progressBar = document.querySelector('.progress-bar');
+            const resultContainer = document.getElementById('result-container');
+            const finalScoreSpan = document.getElementById('final-score');
+            const maxScoreSpan = document.getElementById('max-score');
+            const resultMessage = document.getElementById('result-message');
+            const restartButton = document.getElementById('restart-button');
+            
+            // Variables del joc
+            let currentQuestion = 0;
+            let score = 0;
+            let questions = [
+                {
+                    question: "Com es diu l'animal peluodo i gordito que diem gat?",
+                    options: [
+                        "Duki",
+                        "Fermín Lopez",
+                        "Belén Esteban",
+                        "Pablo"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Es cert, el nostre petardo peludo es diu Duki jjs"
+                },
+                {
+                    question: "Quin va ser el primer regal que et vaig fer?",
+                    options: [
+                        "Flors",
+                        "Una polsera",
+                        "Un anell",
+                        "Una carta d'amor"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Potser no sigui el primerissim regal que et vaig fer, pero sense dubte l'anell d'Enredados es el primer que recordo tan especial."
+                },
+                {
+                    question: "On vam tenir la nostra primera cita?",
+                    options: [
+                        "A un mirador",
+                        "En un restaurant italià",
+                        "Al parc",
+                        "A la platja"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Cada cop que penso en aquell dia al mriador, em posso tant sensible: El millor dia de la meva vida que mai ovlidaré, el nostre primer petó."
+                },
+                {
+                    question: "Quin és el nostre restaurant preferit o que més ens agrada anar?",
+                    options: [
+                        "1900",
+                        "Kebab el amegos",
+                        "Tagliatela",
+                        "Mc Donald's"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Tot i que potser últimament no és el que més ens agrada anar, el Tagliatela és el nostre restaurant preferit per excelencia, hem celebrat molts moments especilas. Sempre el tindré al meu cor."
+                },
+                {
+                    question: "Que estic estudiant?",
+                    options: [
+                        "Montador de autobuses",
+                        "Enginyeria infrotmàtica",
+                        "Alguna frikada de porgamación",
+                        "Break Dance"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Hombre si se la sabe jjs. És una pregunta més chorra, era per recordar quan encara no sabies ni que estudiava, això era molt al principi, però encara em fa gràcia."
+                },
+                {
+                    question: "Quina cançó consideres que és 'la nostra cançó'?",
+                    options: [
+                        "Iris - The Goo Goo Dolls",
+                        "Paper Rings - Taylor Swift",
+                        "Polaris - Saiko",
+                        "Sunflowers - Post Malone"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "El dubte sempre serà entre Iris i Polaris, però no puc evitar pensar en que Polaris va ser l'inici de tot, i el carinyo que l'hi tinc, tot el que significa, crec que es mereix ser la resposta correcte."
+                },
+                {
+                    question: "Quin es el cotxe dels nostres sominis?",
+                    options: [
+                        "Audi Q8",
+                        "Mercedes-Benz GLA",
+                        "BMW X6",
+                        "Dacia Sandero"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Mira que me regalen cualquiera JAJAJAJAJAJAJ (menos el Dacia). Ojalà algun dia amor, estem treballant molt per poder-ho aocnseguir, no et preocupis que ho farem. TEAMO."
+                },
+                {
+                    question: "Quin és el meu major temor?",
+                    options: [
+                        "Les aranyes",
+                        "Les altures",
+                        "Perdre el teu amor",
+                        "Fracassar en els meus objectius"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "No puc viure sense tu amor. El dia que em faltis, no tornaré mai a ser el mateix. Siusplau, no t'en vagis mai."
+                },
+                {
+                    question: "Quina és la meva estació de l'any preferida?",
+                    options: [
+                        "Primavera",
+                        "Estiu",
+                        "Tardor",
+                        "Hivern"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "M'encanta l'estiu, els dies llargs i les nits senceres amb tu jj."
+                },
+                {
+                    question: "Quin és el NOSTRE color?",
+                    options: [
+                        "Blau",
+                        "Verd",
+                        "Vermell",
+                        "Morat"
+                    ],
+                    correctAnswer: 3,
+                    explanation: "Sempre ens he identificat amb el color morat, encara que sempre penso en tu quan veig el verd, es sens dubte el color que més t'identifica (a part del daurat jj)."
+                },
+                {
+                    question: "Quin tipus de pel·lícules ens agraden més?",
+                    options: [
+                        "Comèdies romàntiques",
+                        "Ciència ficció",
+                        "Thrillers",
+                        "Pel·lícules d'aventures"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Hem vist moltes pel·lícules de comèdies romàntiques, hem vist bastantes, ultimament estem tirant més capa thriller, perà sempre penso en tu quan veig una pel·lícula romantica que haguem vist."
+                },
+                {
+                    question: "Quin ha estat el millor viatge que hem fet junts?",
+                    options: [
+                        "Lloret",
+                        "Florencia",
+                        "Narbona",
+                        "Andalucia"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Res es compara amb Floréncia, sempre serà el més especial. Però tots son molt especials, tornaria amb tu on fos, els cops que fes falta."
+                },
+                {
+                    question: "Quina és la meva major qualitat segons tu?",
+                    options: [
+                        "La meva sinceritat",
+                        "El meu sentit de l'humor",
+                        "La meva empatia",
+                        "La meva creativitat"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Sempre has valorat la meva empatia i com em preocupo pels altres."
+                },
+                {
+                    question: "Quin és el meu passatemps preferit?",
+                    options: [
+                        "Llegir",
+                        "Cuinar",
+                        "Fer esport",
+                        "Escoltar música"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "M'encanta perdre'm en un bon llibre durant hores!"
+                },
+                {
+                    question: "Quin és el meu dolç preferit?",
+                    options: [
+                        "Xocolata",
+                        "Gelat",
+                        "Pastís",
+                        "Galetes"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "No puc resistir-me a un bon gelat, especialment si el comparteixo amb tu!"
+                },
+                {
+                    question: "Quin és el regal més especial que t'he fet?",
+                    options: [
+                        "Un àlbum de fotos",
+                        "Una joia",
+                        "Una sorpresa d'aniversari",
+                        "Un viatge"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Aquell àlbum de fotos amb tots els nostres moments especials!"
+                },
+                {
+                    question: "Quina és la nostra tradició més especial?",
+                    options: [
+                        "Sopar junts els divendres",
+                        "Veure pel·lícules els diumenges",
+                        "Fer un viatge cada aniversari",
+                        "Escriure'ns notes d'amor"
+                    ],
+                    correctAnswer: 3,
+                    explanation: "Les nostres notes d'amor sempre han estat la nostra tradició més bonica!"
+                },
+                {
+                    question: "Quin és el meu major somni per al nostre futur junts?",
+                    options: [
+                        "Tenir una casa gran",
+                        "Viatjar pel món",
+                        "Formar una família",
+                        "Viure aventures constants"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Formar una família junts sempre ha estat el meu somni més gran!"
+                },
+                {
+                    question: "Quina és la paraula que més utilitzo per expressar-te el meu amor?",
+                    options: [
+                        "T'estimo",
+                        "Ets el meu tot",
+                        "Per sempre",
+                        "El meu amor"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "'T'estimo' és la paraula més sincera i la que més et dic cada dia!"
+                },
+                {
+                    question: "Quin creus que és el secret del nostre amor?",
+                    options: [
+                        "La comunicació",
+                        "La confiança",
+                        "El respecte mutu",
+                        "Tots els anteriors"
+                    ],
+                    correctAnswer: 3,
+                    explanation: "El nostre amor es basa en la comunicació, la confiança i el respecte mutu!"
+                }
+            ];
+            
+            // Actualitzar el nombre total de preguntes
+            totalQuestionsSpan.textContent = questions.length;
+            maxScoreSpan.textContent = questions.length * 10;
+            
+            // Iniciar el joc
+            startButton.addEventListener('click', startGame);
+            nextButton.addEventListener('click', nextQuestion);
+            restartButton.addEventListener('click', restartGame);
+            
+            function startGame() {
+                gameInfo.style.display = 'none';
+                questionContainer.style.display = 'block';
+                currentQuestion = 0;
+                score = 0;
+                scoreDisplay.textContent = score;
+                loadQuestion();
+                updateProgressBar();
+            }
+            
+            function loadQuestion() {
+                const question = questions[currentQuestion];
+                questionText.textContent = question.question;
+                optionsContainer.innerHTML = '';
+                feedback.className = 'feedback';
+                feedback.textContent = '';
+                nextButton.classList.remove('visible');
+                
+                // Crear els botons d'opcions
+                question.options.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    button.className = 'option-button';
+                    button.textContent = option;
+                    button.dataset.index = index;
+                    button.addEventListener('click', checkAnswer);
+                    optionsContainer.appendChild(button);
+                });
+                
+                // Actualitzar el número de pregunta actual
+                currentQuestionSpan.textContent = currentQuestion + 1;
+                
+                // Afegir animació
+                questionContainer.classList.remove('slide-out');
+                questionContainer.classList.add('slide-in');
+            }
+            
+            function checkAnswer(e) {
+                const selectedIndex = parseInt(e.target.dataset.index);
+                const question = questions[currentQuestion];
+                const buttons = document.querySelectorAll('.option-button');
+                
+                // Desactivar tots els botons
+                buttons.forEach(button => {
+                    button.classList.add('disabled');
+                });
+                
+                // Marcar la resposta correcta i incorrecta
+                buttons[question.correctAnswer].classList.add('correct');
+                
+                if (selectedIndex === question.correctAnswer) {
+                    // Resposta correcta
+                    e.target.classList.add('correct');
+                    feedback.className = 'feedback correct';
+                    feedback.textContent = '¡Correcte! ' + question.explanation;
+                    score += 10;
+                    scoreDisplay.textContent = score;
+                    createHearts(e.target);
+                } else {
+                    // Resposta incorrecta
+                    e.target.classList.add('incorrect');
+                    feedback.className = 'feedback incorrect';
+                    feedback.textContent = 'No és correcte. ' + question.explanation;
+                }
+                
+                // Mostrar el botó següent
+                nextButton.classList.add('visible');
+            }
+            
+            function nextQuestion() {
+                questionContainer.classList.remove('slide-in');
+                questionContainer.classList.add('slide-out');
+                
+                setTimeout(() => {
+                    currentQuestion++;
+                    
+                    if (currentQuestion < questions.length) {
+                        loadQuestion();
+                        updateProgressBar();
+                    } else {
+                        showResults();
+                    }
+                }, 500);
+            }
+            
+            function updateProgressBar() {
+                const progress = (currentQuestion / questions.length) * 100;
+                progressBar.style.width = progress + '%';
+            }
+            
+            function showResults() {
+                questionContainer.style.display = 'none';
+                resultContainer.style.display = 'block';
+                finalScoreSpan.textContent = score;
+                
+                // Missatge personalitzat segons la puntuació
+                let message = '';
+                const maxScore = questions.length * 10;
+                const percentage = (score / maxScore) * 100;
+                
+                if (percentage === 100) {
+                    message = 'Perfecte! Em coneixes completament! El nostre amor és increïble!';
+                    createConfetti();
+                } else if (percentage >= 80) {
+                    message = 'Gairebé perfecte! Em coneixes molt bé. T\'estimo molt!';
+                } else if (percentage >= 60) {
+                    message = 'Molt bé! Tenim una connexió especial. Seguim coneixent-nos més!';
+                } else if (percentage >= 40) {
+                    message = 'No està malament! Encara tenim moltes coses per descobrir junts!';
+                } else {
+                    message = 'Tenim molt per aprendre l\'un de l\'altre. Això és només el començament!';
+                }
+                
+                resultMessage.textContent = message;
+            }
+            
+            function restartGame() {
+                resultContainer.style.display = 'none';
+                currentQuestion = 0;
+                score = 0;
+                scoreDisplay.textContent = score;
+                loadQuestion();
+                updateProgressBar();
+                questionContainer.style.display = 'block';
+            }
+            
+            function createHearts(element) {
+                for (let i = 0; i < 5; i++) {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-animation';
+                    heart.innerHTML = '<i class="fas fa-heart"></i>';
+                    
+                    // Posició aleatòria al voltant de l'element
+                    const rect = element.getBoundingClientRect();
+                    const gameContainerRect = document.querySelector('.game-container').getBoundingClientRect();
+                    
+                    const x = rect.left + Math.random() * rect.width - gameContainerRect.left;
+                    const y = rect.top + Math.random() * rect.height - gameContainerRect.top;
+                    
+                    heart.style.left = x + 'px';
+                    heart.style.top = y + 'px';
+                    
+                    document.querySelector('.game-container').appendChild(heart);
+                    
+                    // Eliminar el cor després de l'animació
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 2000);
+                }
+            }
+            
+            function createConfetti() {
+                const container = document.querySelector('.game-container');
+                const containerRect = container.getBoundingClientRect();
+                
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    
+                    // Colors aleatoris
+                    const colors = ['#e91e63', '#ff9a8b', '#ffd1dc', '#f8e5ee', '#c2185b'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.backgroundColor = color;
+                    
+                    // Mida aleatòria
+                    const size = Math.random() * 10 + 5;
+                    confetti.style.width = size + 'px';
+                    confetti.style.height = size + 'px';
+                    
+                    // Forma aleatòria
+                    const shapes = ['circle', 'square', 'triangle'];
+                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                    
+                    if (shape === 'circle') {
+                        confetti.style.borderRadius = '50%';
+                    } else if (shape === 'triangle') {
+                        confetti.style.width = '0';
+                        confetti.style.height = '0';
+                        confetti.style.backgroundColor = 'transparent';
+                        confetti.style.borderLeft = size/2 + 'px solid transparent';
+                        confetti.style.borderRight = size/2 + 'px solid transparent';
+                        confetti.style.borderBottom = size + 'px solid ' + color;
+                    }
+                    
+                    // Posició inicial aleatòria
+                    const x = Math.random() * containerRect.width;
+                    const y = -20;
+                    
+                    confetti.style.left = x + 'px';
+                    confetti.style.top = y + 'px';
+                    
+                    // Animació personalitzada
+                    const duration = Math.random() * 3 + 2;
+                    const delay = Math.random() * 2;
+                    
+                    confetti.style.animation = `fall ${duration}s ease-in ${delay}s forwards`;
+                    
+                    // Afegir keyframes per a l'animació de caiguda
+                    const styleSheet = document.styleSheets[0];
+                    const keyframes = `
+                        @keyframes fall {
+                            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+                            100% { transform: translateY(${containerRect.height}px) rotate(${Math.random() * 360}deg); opacity: 0; }
+                        }
+                    `;
+                    
+                    if (styleSheet.insertRule) {
+                        styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
+                    } else if (styleSheet.addRule) {
+                        styleSheet.addRule('@keyframes fall', keyframes);
+                    }
+                    
+                    container.appendChild(confetti);
+                    
+                    // Eliminar el confeti després de l'animació
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, (duration + delay) * 1000);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
