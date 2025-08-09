@@ -97,7 +97,7 @@
         .option-button:hover {
             background-color: #fce4ec;
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+            box-shadow: 0 5px 15px rgba(253, 253, 253, 0.3);
         }
         
         .option-button.correct {
@@ -225,7 +225,7 @@
             font-weight: bold;
             margin-top: 20px;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+            box-shadow: 0 5px 15px rgba(236, 233, 234, 0.3);
         }
         
         .restart-button:hover {
@@ -314,33 +314,11 @@
             <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Tornar a l'inici</a>
             
             <div class="game-container">
-                <div class="game-info">
-                    <h2>Preguntes del Nostre Amor</h2>
-                    <p>Un joc de 20 preguntes sobre nosaltres, els nostres moments especials i el nostre amor.</p>
-                    <p>Cada resposta correcta et donarà punts. Veurem quant saps sobre la nostra història!</p>
-                    <button id="start-game">Començar el Joc</button>
-                </div>
-                
-                <div class="progress-container">
-                    <div class="progress-bar"></div>
-                </div>
-                
-                <div class="score-display">Puntuació: <span id="score">0</span></div>
-                
-                <div class="question-container" style="display: none;">
-                    <div class="question-number">Pregunta <span id="current-question">1</span> de <span id="total-questions">20</span></div>
-                    <div class="question-text" id="question-text"></div>
-                    <div class="options-container" id="options-container"></div>
-                    <div class="feedback" id="feedback"></div>
-                    <button class="next-button" id="next-button">Següent Pregunta</button>
-                </div>
-                
-                <div class="result-container" id="result-container">
-                    <h2>Resultats Finals</h2>
-                    <p>Has completat totes les preguntes!</p>
-                    <p>La teva puntuació final és: <span id="final-score">0</span> de <span id="max-score">0</span></p>
-                    <p id="result-message"></p>
-                    <button class="restart-button" id="restart-button">Tornar a Jugar</button>
+                <div class="game-info" style="background: linear-gradient(135deg, #f8e5ee 0%, #ffd1dc 100%); border-radius: 15px; padding: 20px; box-shadow: 0 10px 25px rgba(233, 30, 99, 0.2);">
+                    <h2 style="color: #e91e63; font-size: 1.5rem; margin-bottom: 15px;">Preguntes Només per nosaltres</h2>
+                    <p style="color: #333; font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px;">Un joc de 20 preguntes sobre nosaltres, els nostres moments especials i el nostre amor.</p>
+                    <p style="color: #333; font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px;">Cada resposta correcta et donarà punts. Espero que les encertis totes jj.</p>
+                    <button id="start-game" style="padding: 12px 25px; background-color: #e91e63; color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);">Començar el Joc</button>
                 </div>
             </div>
         </div>
@@ -375,7 +353,7 @@
             let score = 0;
             let questions = [
                 {
-                    question: "Com es diu l'animal peluodo i gordito que diem gat?",
+                    question: "Com es diu l'animal peluudo i gordito que diem gat?",
                     options: [
                         "Duki",
                         "Fermín Lopez",
@@ -427,7 +405,7 @@
                         "Break Dance"
                     ],
                     correctAnswer: 1,
-                    explanation: "Hombre si se la sabe jjs. És una pregunta més chorra, era per recordar quan encara no sabies ni que estudiava, això era molt al principi, però encara em fa gràcia."
+                    explanation: "Hombre si se la sabe jjs. És una pregunta más chorra, era per recordar quan encara no sabies ni que estudiava, això era molt al principi, però encara em fa gràcia."
                 },
                 {
                     question: "Quina cançó consideres que és 'la nostra cançó'?",

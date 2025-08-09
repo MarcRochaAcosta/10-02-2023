@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notes d'Amor</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="container">
@@ -13,14 +14,18 @@
             <p class="subtitle">Comparteix els teus sentiments</p>
         </header>
 
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Tornar a l'inici
+        </a>
+
         <main>
             <section class="notes-section">
                 <form id="comment-form" class="note-form">
                     <label for="name">Nom:</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" placeholder="Escriu el teu nom..." required>
 
                     <label for="comment">Comentari:</label>
-                    <textarea id="comment" name="comment" rows="4" required></textarea>
+                    <textarea id="comment" name="comment" rows="4" placeholder="Escriu el teu comentari..." required></textarea>
 
                     <button type="submit">Enviar</button>
                 </form>
