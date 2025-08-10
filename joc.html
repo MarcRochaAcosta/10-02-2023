@@ -7,7 +7,17 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Estils específics per al joc de preguntes */
+        /* ========================
+           ESTILO MODIFICADO
+        ======================== */
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fafafa;
+            color: #333;
+            margin: 0;
+        }
+
         .game-container {
             display: flex;
             flex-direction: column;
@@ -20,158 +30,154 @@
         .game-info {
             text-align: center;
             margin-bottom: 30px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            max-width: 600px;
+            padding: 25px;
+            background-color: white;
+            border-radius: 12px;
+            max-width: 650px;
             width: 100%;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+        
+        .game-info h2 {
+            font-size: 1.8rem;
+            color: #e91e63;
+            margin-bottom: 10px;
         }
         
         .game-info p {
             margin-bottom: 15px;
+            color: #555;
+        }
+        
+        #start-game {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #start-game:hover {
+            background: linear-gradient(135deg, #ff5d9e, #ff4f81);
+            transform: translateY(-2px);
         }
         
         .question-container {
-            background: linear-gradient(135deg, #f8e5ee 0%, #ffd1dc 100%);
-            border-radius: 15px;
-            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
             width: 90%;
-            max-width: 600px;
-            box-shadow: 0 10px 25px rgba(233, 30, 99, 0.2);
+            max-width: 650px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             margin-bottom: 30px;
             position: relative;
-            overflow: hidden;
             transition: all 0.5s ease;
         }
         
-        .question-container::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: linear-gradient(45deg, #e91e63, #ff9a8b, #e91e63);
-            z-index: -1;
-            filter: blur(20px);
-            opacity: 0.7;
-            border-radius: 20px;
-        }
-        
         .question-number {
-            font-size: 1.2rem;
-            color: #e91e63;
-            margin-bottom: 15px;
-            font-weight: bold;
+            font-size: 1rem;
+            color: #999;
+            margin-bottom: 10px;
         }
         
         .question-text {
-            font-size: 1.4rem;
-            margin-bottom: 25px;
-            color: #333;
-            line-height: 1.5;
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #222;
         }
         
         .options-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             width: 100%;
         }
         
         .option-button {
-            padding: 15px 20px;
+            padding: 12px 18px;
             background-color: white;
-            border: 2px solid #e91e63;
+            border: 2px solid #eee;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1rem;
             text-align: left;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            color: #333;
+            color: #444;
         }
         
         .option-button:hover {
-            background-color: #fce4ec;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(253, 253, 253, 0.3);
+            background-color: #f9f9f9;
+            border-color: #e91e63;
         }
         
         .option-button.correct {
-            background-color: #c8e6c9;
+            background-color: #e0f8e9;
             border-color: #4caf50;
             color: #2e7d32;
             pointer-events: none;
         }
         
         .option-button.incorrect {
-            background-color: #ffcdd2;
+            background-color: #ffe3e3;
             border-color: #f44336;
             color: #c62828;
             pointer-events: none;
         }
         
-        .option-button.disabled {
-            opacity: 0.7;
-            pointer-events: none;
-        }
-        
         .feedback {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
             text-align: center;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             display: none;
         }
         
         .feedback.correct {
-            background-color: #c8e6c9;
+            background-color: #e0f8e9;
             color: #2e7d32;
             display: block;
-            animation: fadeIn 0.5s ease;
         }
         
         .feedback.incorrect {
-            background-color: #ffcdd2;
+            background-color: #ffe3e3;
             color: #c62828;
             display: block;
-            animation: fadeIn 0.5s ease;
         }
         
         .next-button {
-            padding: 12px 25px;
-            background-color: #e91e63;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
             color: white;
             border: none;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-top: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 15px;
             transition: all 0.3s ease;
             display: none;
-            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
         }
         
         .next-button:hover {
-            background-color: #c2185b;
-            transform: scale(1.05);
+            background: linear-gradient(135deg, #ff5d9e, #ff4f81);
+            transform: translateY(-2px);
         }
         
         .next-button.visible {
             display: inline-block;
-            animation: bounceIn 0.5s ease;
         }
         
         .progress-container {
             width: 90%;
-            max-width: 600px;
-            height: 10px;
-            background-color: #f5f5f5;
+            max-width: 650px;
+            height: 8px;
+            background-color: #f0f0f0;
             border-radius: 5px;
             margin-bottom: 20px;
             overflow: hidden;
@@ -179,111 +185,51 @@
         
         .progress-bar {
             height: 100%;
-            background: linear-gradient(to right, #ff9a8b, #e91e63);
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
             width: 0%;
             transition: width 0.5s ease;
-            border-radius: 5px;
         }
         
         .score-display {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #e91e63;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-weight: bold;
         }
         
         .result-container {
             text-align: center;
-            background: linear-gradient(135deg, #f8e5ee 0%, #ffd1dc 100%);
-            border-radius: 15px;
-            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
             width: 90%;
-            max-width: 600px;
-            box-shadow: 0 10px 25px rgba(233, 30, 99, 0.2);
+            max-width: 650px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             margin-bottom: 30px;
             display: none;
         }
         
         .result-container h2 {
             color: #e91e63;
-            margin-bottom: 20px;
-        }
-        
-        .result-container p {
             margin-bottom: 15px;
-            font-size: 1.1rem;
         }
         
         .restart-button {
-            padding: 12px 25px;
-            background-color: #e91e63;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
             color: white;
             border: none;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-top: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 15px;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(236, 233, 234, 0.3);
         }
         
         .restart-button:hover {
-            background-color: #c2185b;
-            transform: scale(1.05);
-        }
-        
-        .heart-animation {
-            position: absolute;
-            font-size: 24px;
-            color: #e91e63;
-            pointer-events: none;
-            z-index: 100;
-            animation: floatHeart 2s ease-in-out forwards;
-        }
-        
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #e91e63;
-            pointer-events: none;
-            z-index: 100;
-        }
-        
-        /* Animacions */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes bounceIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        
-        @keyframes floatHeart {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-100px) scale(0); opacity: 0; }
-        }
-        
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes slideOutLeft {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(-100%); opacity: 0; }
-        }
-        
-        .slide-in {
-            animation: slideInRight 0.5s ease forwards;
-        }
-        
-        .slide-out {
-            animation: slideOutLeft 0.5s ease forwards;
+            background: linear-gradient(135deg, #ff5d9e, #ff4f81);
+            transform: translateY(-2px);
         }
         
         @media (max-width: 768px) {
@@ -291,14 +237,11 @@
                 padding: 20px;
                 width: 95%;
             }
-            
             .question-text {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
-            
             .option-button {
-                padding: 12px 15px;
-                font-size: 1rem;
+                font-size: 0.95rem;
             }
         }
     </style>
@@ -314,11 +257,33 @@
             <a href="index.html" class="back-button"><i class="fas fa-arrow-left"></i> Tornar a l'inici</a>
             
             <div class="game-container">
-                <div class="game-info" style="background: linear-gradient(135deg, #f8e5ee 0%, #ffd1dc 100%); border-radius: 15px; padding: 20px; box-shadow: 0 10px 25px rgba(233, 30, 99, 0.2);">
-                    <h2 style="color: #e91e63; font-size: 1.5rem; margin-bottom: 15px;">Preguntes Només per nosaltres</h2>
-                    <p style="color: #333; font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px;">Un joc de 20 preguntes sobre nosaltres, els nostres moments especials i el nostre amor.</p>
-                    <p style="color: #333; font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px;">Cada resposta correcta et donarà punts. Espero que les encertis totes jj.</p>
-                    <button id="start-game" style="padding: 12px 25px; background-color: #e91e63; color: white; border: none; border-radius: 25px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);">Començar el Joc</button>
+                <div class="game-info">
+                    <h2>Preguntes Només per nosaltres</h2>
+                    <p>Un joc de 20 preguntes sobre nosaltres, els nostres moments especials i el nostre amor.</p>
+                    <p>Cada resposta correcta et donarà punts. Espero que les encertis totes jj.</p>
+                    <button id="start-game">Començar el Joc</button>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar"></div>
+                </div>
+                
+                <div class="score-display">Puntuació: <span id="score">0</span></div>
+                
+                <div class="question-container" style="display: none;">
+                    <div class="question-number">Pregunta <span id="current-question">1</span> de <span id="total-questions">20</span></div>
+                    <div class="question-text" id="question-text"></div>
+                    <div class="options-container" id="options-container"></div>
+                    <div class="feedback" id="feedback"></div>
+                    <button class="next-button" id="next-button">Següent Pregunta</button>
+                </div>
+                
+                <div class="result-container" id="result-container">
+                    <h2>Resultats Finals</h2>
+                    <p>Has completat totes les preguntes!</p>
+                    <p>La teva puntuació final és: <span id="final-score">0</span> de <span id="max-score">0</span></p>
+                    <p id="result-message"></p>
+                    <button class="restart-button" id="restart-button">Tornar a Jugar</button>
                 </div>
             </div>
         </div>
@@ -485,92 +450,92 @@
                     explanation: "Res es compara amb Floréncia, sempre serà el més especial. Però tots son molt especials, tornaria amb tu on fos, els cops que fes falta."
                 },
                 {
-                    question: "Quina és la meva major qualitat segons tu?",
+                    question: "Quin personatje li vaig dir al teu pare que si era de Marvel?",
                     options: [
-                        "La meva sinceritat",
-                        "El meu sentit de l'humor",
-                        "La meva empatia",
-                        "La meva creativitat"
+                        "Mandarín",
+                        "Manekric",
+                        "Mandalorian",
+                        "Mamma Mia"
                     ],
                     correctAnswer: 2,
-                    explanation: "Sempre has valorat la meva empatia i com em preocupo pels altres."
+                    explanation: "Mira tu no sabes quina vergonya vaig sentir i segueixo sentint ara JAJAJAJAJJA. Estaba molt nerviós, i ho recordo com part de la nostra relació, mai ovlidaré el primer dia que vam sopar tots junts. Era senyal de que no estavem fent les coses per fer."
                 },
                 {
-                    question: "Quin és el meu passatemps preferit?",
+                    question: "Quin és el nostre plan idea?",
                     options: [
-                        "Llegir",
-                        "Cuinar",
+                        "El que sigui pero junts",
+                        "Veure una série de thriller",
                         "Fer esport",
-                        "Escoltar música"
+                        "Anar a fer un passeig a la platja"
                     ],
                     correctAnswer: 0,
-                    explanation: "M'encanta perdre'm en un bon llibre durant hores!"
+                    explanation: "El que sigui, pero que sigui junts. Ens agrada anar variant, sobretot a l'estiu una mica. Encara que el que més fem es estar tranquils, el millor plan será qualsevol que estiguem junts parlant."
                 },
                 {
-                    question: "Quin és el meu dolç preferit?",
+                    question: "Quin dia EXACTEMENT vam parlar del nostres sentiments per primer cop?",
                     options: [
-                        "Xocolata",
-                        "Gelat",
-                        "Pastís",
-                        "Galetes"
+                        "03/02/2023",
+                        "04/02/2023",
+                        "05/02/2023",
+                        "10/02/2023"
                     ],
                     correctAnswer: 1,
-                    explanation: "No puc resistir-me a un bon gelat, especialment si el comparteixo amb tu!"
+                    explanation: "Realment es podria contar tant el 4 com el 5, ja que va ser la matinada del 5, però com que encara no habiem ni dormit i realment vam començar a parlar com a tal el 4, es podria contar com a valid."
                 },
                 {
-                    question: "Quin és el regal més especial que t'he fet?",
+                    question: "Quina diries que es la nostra serie preferida?",
                     options: [
-                        "Un àlbum de fotos",
-                        "Una joia",
-                        "Una sorpresa d'aniversari",
-                        "Un viatge"
+                        "Aquí no hay quien viva",
+                        "Friends",
+                        "Stranger Things",
+                        "El verano que me enamoré"
                     ],
                     correctAnswer: 0,
-                    explanation: "Aquell àlbum de fotos amb tots els nostres moments especials!"
+                    explanation: "Aquesta pot ser una mica trampa. ANHQV es sense dubte la série que més hem reproduit, però el carinyo que l'hi guardo a Friends es massa gran. Mai ovlidaré com em vaig possar a plorar com un nen quan la vam acabar. Gracies per fer-me veure-la jj."
                 },
                 {
-                    question: "Quina és la nostra tradició més especial?",
+                    question: "Què és el que més admirem de la nostra relació?",
                     options: [
-                        "Sopar junts els divendres",
-                        "Veure pel·lícules els diumenges",
-                        "Fer un viatge cada aniversari",
-                        "Escriure'ns notes d'amor"
+                        "Les tonteries que fem",
+                        "Les idees per fer plans",
+                        "Els nostres amics",
+                        "La capacitat d'escoltar-nos"
                     ],
                     correctAnswer: 3,
-                    explanation: "Les nostres notes d'amor sempre han estat la nostra tradició més bonica!"
+                    explanation: "Tot i que sempre no sigui tan façil dir-ho com fer-ho, la capacitat d'escoltar-nos és la cosa que més ens diferéncia de la resta. Sempre arribem a la matiexa conclussió, i encara que no sempre se'ns dongui bé, ho fem millor que la resta."
                 },
                 {
-                    question: "Quin és el meu major somni per al nostre futur junts?",
+                    question: "Que és al que mé aspirem a la vida?",
                     options: [
                         "Tenir una casa gran",
                         "Viatjar pel món",
-                        "Formar una família",
-                        "Viure aventures constants"
+                        "Estar junts passi el que passi",
+                        "Adoptar molts gats"
                     ],
                     correctAnswer: 2,
-                    explanation: "Formar una família junts sempre ha estat el meu somni més gran!"
+                    explanation: "Me gustan todas las opciones JAJAJAJAJJA. El més important és estar junts passi el que passi. Els plans poder canviar com facilment per molts motius, visquem on visquem, i les decissions que prenem, no farán que ens separi. De ninguna manera, la meva vida és amb tu."
                 },
                 {
-                    question: "Quina és la paraula que més utilitzo per expressar-te el meu amor?",
+                    question: "Quin es el mote per excelencia que ens deiem abans?",
                     options: [
-                        "T'estimo",
-                        "Ets el meu tot",
-                        "Per sempre",
-                        "El meu amor"
+                        "Pijo i Choni",
+                        "Pija i Kani",
+                        "Brocha i sense h",
+                        "Trancas i Barrancas"
                     ],
                     correctAnswer: 0,
-                    explanation: "'T'estimo' és la paraula més sincera i la que més et dic cada dia!"
+                    explanation: "Mare meva quins records. Encara que jo et tenia agregada com 'Sense ache' tal qual, pijo i choni era com ens referiem quasi sempre. Com quan et vaig comentar a la publicació aquella jjs."
                 },
                 {
-                    question: "Quin creus que és el secret del nostre amor?",
+                    question: "PREGUNTA OBRETA PER REFLEXIONAR: Que creus que hauría de fer o de dixar de fer, per ser millor per a tu?",
                     options: [
-                        "La comunicació",
-                        "La confiança",
-                        "El respecte mutu",
-                        "Tots els anteriors"
+                        "A",
+                        "B",
+                        "C",
+                        "D"
                     ],
                     correctAnswer: 3,
-                    explanation: "El nostre amor es basa en la comunicació, la confiança i el respecte mutu!"
+                    explanation: "Sigui el que sigui, faré el que faci falta per ser millor per a tu. T'estimo."
                 }
             ];
             

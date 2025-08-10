@@ -146,7 +146,7 @@ function startMemoryGame() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     const API_URL = 'https://api.jsonbin.io/v3/b/68974b2cae596e708fc5efdd';
     const API_KEY = '$2a$10$MF8uIEUb4wMPTRhgQmdfZO/Lu6C3CTFvjril16xqSJ91a221AY4ma';
 
@@ -163,7 +163,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const data = await response.json();
             displayComments(data.record);
         } catch (error) {
-            commentsContainer.innerHTML = '<p class="no-comments">Encara no hi ha comentaris. Sigues el primer!</p>';
+            console.log('No comments yet');
+            commentsContainer.innerHTML = '<p class="no-comments">Be the first to leave a comment!</p>';
         }
     }
 
@@ -171,8 +172,8 @@ document.addEventListener('DOMContentLoaded', function () {
         commentsContainer.innerHTML = '';
         comments.forEach(comment => {
             const commentElement = document.createElement('div');
-            commentElement.className = 'note';
-            commentElement.innerHTML = `<strong>${comment.name}:</strong><br>${comment.comment}`;
+            commentElement.className = 'comment';
+            commentElement.innerHTML = `<h4>${comment.name}</h4><p>${comment.comment}</p>`;
             commentsContainer.appendChild(commentElement);
         });
     }
@@ -200,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
             displayComments(comments);
         } catch (error) {
             console.error('Error:', error.message);
-            alert('No s\'ha pogut guardar el comentari.');
+            alert(error.message);
         }
     }
 
@@ -210,20 +211,18 @@ document.addEventListener('DOMContentLoaded', function () {
         const commentInput = document.getElementById('comment');
 
         const commentData = {
-            name: nameInput.value.trim(),
-            comment: commentInput.value.trim()
+            name: nameInput.value,
+            comment: commentInput.value
         };
 
-        if (commentData.name && commentData.comment) {
-            await saveComment(commentData);
-            nameInput.value = '';
-            commentInput.value = '';
-        }
+        await saveComment(commentData);
+
+        nameInput.value = '';
+        commentInput.value = '';
     });
 
     loadComments();
 });
-
 
 // Funcionalitat per a les notes d'amor
 function initNotes() {
